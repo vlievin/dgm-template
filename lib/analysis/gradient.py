@@ -76,8 +76,15 @@ class GradientAnalysis(Analysis):
         snr = magnitude / (self.EPS + std)
 
         # log the data
-        data = {'snr': snr.mean().item(),
-                'magnitude': magnitude.mean().item(),
-                'variance': variance().mean().item()}
+        data = {'mean-snr': snr.mean().item(),
+                'mean-magnitude': magnitude.mean().item(),
+                'mean-variance': variance().mean().item(),
+                'std-snr': snr.std().item(),
+                'std-magnitude': magnitude.std().item(),
+                'std-variance': variance().std().item()
+                }
         diagnostic = Diagnostic({'grads': data})
         diagnostic.log(writer=self.writer, global_step=self.session.global_step)
+
+        # zeroe grads
+        self.model.zero_grad()
