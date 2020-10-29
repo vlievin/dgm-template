@@ -44,6 +44,8 @@ def parse_arguments() -> Dict:
                         help='optimizer identifier')
     parser.add_argument('--lr', default=2e-3, type=float,
                         help='learning rate')
+    parser.add_argument('--grad_clip', default=1e18, type=float,
+                        help='gradient clipping value')
     parser.add_argument('--batch_size', default=64, type=int,
                         help='training batch-size')
     parser.add_argument('--eval_batch_size', default=128, type=int,

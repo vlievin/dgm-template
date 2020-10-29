@@ -3,7 +3,7 @@ from typing import *
 from torch import nn, Tensor
 
 from lib.utils import Diagnostic
-from lib.utils import batch_reduce
+from lib.utils import batch_reduce, prod
 from .base import GradientEstimator
 
 
@@ -27,6 +27,9 @@ class VariationalInference(GradientEstimator):
         # update the `config` object given the `kwargs`
         config = self.get_runtime_config(**kwargs)  # for instance, beta, K, ...
 
+        # retrieve the number of dimensions
+        n_pixels = prod(x.shape[1:])
+
         # forward pass through the model
         output = model(x, **config)
         px, qz, pz, z = [output[k] for k in ['px', 'qz', 'pz', 'z']]
@@ -41,11 +44,12 @@ class VariationalInference(GradientEstimator):
         elbo = log_px - kl
 
         # loss
-        loss = - elbo
+        loss = - elbo / n_pixels
 
         if return_diagnostic:
             diagnostic = Diagnostic({
                 'loss': {
+                    'bpd': loss,
                     'elbo': elbo,
                     'nll': -log_px,
                     'kl': kl

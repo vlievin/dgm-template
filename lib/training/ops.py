@@ -22,13 +22,17 @@ def append_elapsed_time(func):
 
 
 @append_elapsed_time
-def training_step(x, model, estimator, optimizer, **config):
+def training_step(x, model, estimator, optimizer, grad_clip=1e18, **config):
     """Perform one optimization step of the `model` given the mini-batch of observations `x`,
     the gradient estimator/evaluator `estimator` and the optimizer `optimizer`"""
     loss, diagnostics, output = estimator(model, x, **config)
 
     # backward pass
     loss.mean().backward()
+
+    # gradient clipping
+    grad_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), grad_clip)
+    diagnostics.update({'info': {'grad_norm': grad_norm}})
 
     # optimization step
     optimizer.step()

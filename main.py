@@ -53,15 +53,15 @@ def run():
         optimizer = init_optimizer(args, model, estimator)
 
         # define parameters (beta, ...)
-        parameters = {}
+        parameters = {'grad_clip': args['grad_clip']}
 
         # training session (checkpointing), restore if a checkpoint exists
         session = Session(run_id, experiment.logdir, model, estimator, optimizer, hyperparameters)
         if session.restore_if_available():
             with Header("Session"):
                 logger_base.info(f"Restoring Session from epoch = {session.epoch} (best test "
-                                f"L = {session.best_elbo[0]:.3f} at step {session.best_elbo[1]}, "
-                                f"epoch = {session.best_elbo[2]})")
+                                 f"L = {session.best_elbo[0]:.3f} at step {session.best_elbo[1]}, "
+                                 f"epoch = {session.best_elbo[2]})")
 
         # move everything to device
         device = available_device()
