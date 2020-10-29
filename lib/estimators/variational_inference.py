@@ -3,7 +3,7 @@ from typing import *
 from torch import nn, Tensor
 
 from lib.utils import Diagnostic
-from lib.utils import batch_reduce, prod
+from lib.utils import batchwise_reduce, prod
 from .base import GradientEstimator
 
 
@@ -35,9 +35,9 @@ class VariationalInference(GradientEstimator):
         px, qz, pz, z = [output[k] for k in ['px', 'qz', 'pz', 'z']]
 
         # evaluate the log probabilities
-        log_qz = batch_reduce(qz.log_prob(z))
-        log_pz = batch_reduce(pz.log_prob(z))
-        log_px = batch_reduce(px.log_prob(x))
+        log_qz = batchwise_reduce(qz.log_prob(z))
+        log_pz = batchwise_reduce(pz.log_prob(z))
+        log_px = batchwise_reduce(px.log_prob(x))
 
         # elbo
         kl = log_qz - log_pz

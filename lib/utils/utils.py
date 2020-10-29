@@ -21,7 +21,7 @@ def flatten(x: Tensor):
     return x.view(x.size(0), -1)
 
 
-def batch_reduce(x: Tensor):
+def batchwise_reduce(x: Tensor):
     """return x.view(x.size(0), -1).sum(1)"""
     return flatten(x).sum(1)
 
