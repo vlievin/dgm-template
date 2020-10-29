@@ -3,7 +3,7 @@ import hashlib
 from typing import Dict
 
 # define arguments that should not influence the run id
-BASE_ARGS_EXCEPTIONS = ["root", "data_root", "exp", "epochs", "rf", "eval_freq", "sampler"]
+BASE_ARGS_EXCEPTIONS = ["root", "data_root", "exp", "epochs", "rf", "eval_freq", "analysis", "grad_samples"]
 
 # arguments that will be explicitely written in the id
 EXPLICIT_ARGS = ["dataset", "model", "seed"]
