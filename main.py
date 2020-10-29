@@ -59,7 +59,7 @@ def run():
         session = Session(run_id, experiment.logdir, model, estimator, optimizer, hyperparameters)
         if session.restore_if_available():
             with Header("Session"):
-                logger_base.log(f"Restoring Session from epoch = {session.epoch} (best test "
+                logger_base.info(f"Restoring Session from epoch = {session.epoch} (best test "
                                 f"L = {session.best_elbo[0]:.3f} at step {session.best_elbo[1]}, "
                                 f"epoch = {session.best_elbo[2]})")
 

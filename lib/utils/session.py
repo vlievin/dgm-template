@@ -48,7 +48,7 @@ class Session():
         self.model.load_state_dict(checkpoint['model'])
         self.estimator.load_state_dict(checkpoint['estimator'])
         self.optimizer.load_state_dict(checkpoint['optimizer'])
-        self.hyperparameters.load_state_dict(checkpoint['hyperparameters'])
+        self.hyperparameters = checkpoint['hyperparameters']
 
     def restore_if_available(self):
         if os.path.exists(self.path):

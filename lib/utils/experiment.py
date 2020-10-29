@@ -46,9 +46,6 @@ class Experiment():
                 warnings.warn(f"Deleting experiment directory ´{self.logdir}´")
                 rmtree(self.logdir)
                 os.makedirs(self.logdir)
-            else:
-                raise ValueError(f"Experiment directory ´{self.logdir}´ already exists. "
-                                 f"Use the command argument ´--rf´ to override it.")
         else:
             os.makedirs(self.logdir)
 
